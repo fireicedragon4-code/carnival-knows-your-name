@@ -1,0 +1,47 @@
+name: Publish browser game
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build standalone public copy
+        env:
+          BASE_URL: https://carnival-knows-your-name.fireice4231.chatgpt.site
+        run: |
+          set -euo pipefail
+          mkdir -p site
+
+          curl -fsSL --retry 3 "$BASE_URL/game" -o site/index.html
+          cp site/index.html site/game.html
+
+          for file in game.css game.js sw.js manifest.webmanifest favicon.svg; do
+            curl -fsSL --retry 3 "$BASE_URL/$file" -o "site/$file"
+          done
+
+          grep -rhoE 'assets/[A-Za-z0-9_./@-]+\.(png|jpg|jpeg|webp|svg|gif)' site \
+            | sort -u > /tmp/game-assets.txt
+
+          while IFS= read -r file; do
+            mkdir -p "site/$(dirname "$file")"
+            curl -fsSL --retry 3 "$BASE_URL/$file" -o "site/$file"
+          done < /tmp/game-assets.txt
+
+          sed -i 's#"start_url": "./game"#"start_url": "./"#' site/manifest.webmanifest || true
+          sed -i 's#"start_url": "/game"#"start_url": "./"#' site/manifest.webmanifest || true
+          touch site/.nojekyll
+
+      - name: Publish public game branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          publish_branch: gh-pages
+          force_orphan: true
