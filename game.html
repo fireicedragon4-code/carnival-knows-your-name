@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07050d">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Carnival">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="game.css?v=11">
+  <title>The Carnival Knows Your Name — PC Demo</title>
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <main id="title" class="screen title-screen" aria-label="Title screen">
+      <div class="title-curtain curtain-left" aria-hidden="true"></div>
+      <div class="title-curtain curtain-right" aria-hidden="true"></div>
+      <section class="title-card">
+        <div class="mask-mark" aria-hidden="true"><span></span><i></i><span></span></div>
+        <p class="eyebrow">An original psychological-horror romance</p>
+        <h1><span>The Carnival</span>Knows Your Name</h1>
+        <p class="tagline">Some invitations remember who you were.</p>
+        <div class="title-actions">
+          <button id="newBtn" class="btn primary">Begin a new performance</button>
+          <button id="continueBtn" class="btn hidden">Continue from autosave</button>
+          <button id="quickLoadTitle" class="btn ghost hidden">Load quick save</button>
+          <button id="endingGalleryTitle" class="btn ghost hidden">Ending gallery</button>
+          <button class="text-button settings-open">Settings & boundaries</button>
+        </div>
+        <div class="title-meta"><span>VISUAL IDENTITY PASS</span><span>v0.7</span><span>All characters are adults</span></div>
+      </section>
+      <p class="title-hint"><kbd>Enter</kbd> select <span>·</span> <kbd>F</kbd> fullscreen</p>
+    </main>
+
+    <main id="setup" class="screen setup-screen hidden" aria-label="Character setup">
+      <section class="setup-panel">
+        <div class="setup-heading">
+          <button id="backTitle" class="text-button">← Return to title</button>
+          <p class="eyebrow">Before the gates open</p>
+          <h2>Who received the invitation?</h2>
+          <p>Choose a polished base design, then make the name and details yours. The carnival may use a different name later.</p>
+        </div>
+        <div class="creator">
+          <div class="avatar-card">
+            <div class="avatar-stage">
+              <canvas id="avatarCanvas" class="avatar-sprite layered-avatar" width="900" height="1800" role="img" aria-label="Customized protagonist portrait"></canvas>
+            </div>
+            <p class="eyebrow" id="avatarBaseLabel">Male base design</p>
+            <h3 id="avatarName">Elias Crowe</h3>
+            <p class="avatar-note">This is your in-game appearance. Skin, eyes, hair color, and hairstyle carry into scenes, saves, and endings.</p>
+          </div>
+          <form class="creator-form" id="creatorForm">
+            <fieldset><legend>Base design</legend><div class="segments" id="genderSeg"><button type="button" class="on" data-value="male">Male design</button><button type="button" data-value="female">Female design</button></div></fieldset>
+            <div class="form-row"><label>First name<input id="firstName" value="Elias" maxlength="18" autocomplete="off"></label><label>Last name<input id="lastName" value="Crowe" maxlength="20" autocomplete="off"></label></div>
+            <label>Romance routes available<select id="romance"><option value="both">Boys and girls</option><option value="boys">Boys</option><option value="girls">Girls</option></select><small class="route-note" id="routeNote">Lucien and Seren romance choices are enabled.</small></label>
+            <div class="form-row"><label>Skin tone<select id="skin"><option value="#f1cfb9">Light</option><option value="#d59a73">Warm medium</option><option value="#a95f43" selected>Deep warm</option><option value="#69402f">Deep brown</option></select></label><label>Eye color<select id="eyes"><option value="#6fc9dd">Ice blue</option><option value="#7ec08a">Green</option><option value="#b77a4f" selected>Hazel</option><option value="#8b5bc4">Violet</option><option value="#5a352b">Brown</option></select></label></div>
+            <div class="form-row"><label>Hair style<select id="hairStyle"><option value="soft">Soft layers</option><option value="short">Short &amp; neat</option><option value="long">Long layers</option></select></label><label>Hair color<select id="hair"><option value="#201921">Black</option><option value="#4b2c28" selected>Dark brown</option><option value="#8f3443">Crimson</option><option value="#d3ad70">Gold</option><option value="#d8d3d1">Silver</option></select></label></div>
+            <button id="acceptBtn" class="btn primary accept" type="submit">Accept the invitation</button>
+            <p class="form-note">Your choices shape Kind, Bold, Suspicious, Playful, Flirtatious, and Cold traits in secret.</p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <main id="game" class="screen game-screen bedroom hidden" aria-label="Game">
+      <div class="scene-bg" aria-hidden="true"><div class="scene-light"></div><div class="midway-silhouette"></div></div>
+      <div class="vignette" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div><div class="glitch-lines" aria-hidden="true"></div>
+      <header class="hud">
+        <div class="location-block"><span id="chapter">Prologue · An Invitation</span><strong id="location">Your bedroom · 6:42 PM</strong></div>
+        <div class="fear-block" title="Unease"><span>UNEASE</span><div class="fear-track"><i id="fearFill"></i></div><b id="fearValue">04</b></div>
+        <nav class="hud-actions" aria-label="Game controls">
+          <button id="cluesBtn" title="Clues (C)">Clues <b id="clueCount">1</b></button>
+          <button id="saveBtn" title="Quick save (Q)">Save <kbd>Q</kbd></button>
+          <button id="loadBtn" title="Quick load (L)">Load <kbd>L</kbd></button>
+          <button class="settings-open" title="Menu (Escape)">Menu <kbd>Esc</kbd></button>
+        </nav>
+      </header>
+
+      <section class="character-stage" id="characterStage" aria-live="polite">
+        <img id="spriteLeft" class="sprite sprite-left hidden" alt="">
+        <img id="spriteRight" class="sprite sprite-right hidden" alt="">
+        <div id="sigil" class="character-sigil hidden" aria-hidden="true"></div>
+        <div id="nameWhisper" class="name-whisper hidden" aria-hidden="true">SOLSTICE</div>
+      </section>
+
+      <aside class="side-controls" aria-label="Visual novel controls">
+        <button id="autoBtn" title="Auto-play (A)"><span>▶</span> Auto</button>
+        <button id="historyBtn" title="Backlog (H)"><span>≡</span> History</button>
+        <button id="hideUiBtn" title="Hide interface (U)"><span>◫</span> Hide</button>
+        <button id="fullBtn" title="Fullscreen (F)"><span>⛶</span> Full</button>
+      </aside>
+
+      <section id="explore" class="explore hidden" aria-label="Carnival exploration"></section>
+      <section class="dialogue" id="dialogue" aria-live="polite"></section>
+      <div id="keyboardHint" class="keyboard-hint">Click or press <kbd>Space</kbd> to continue</div>
+      <div id="toast" class="toast hidden" role="status"></div>
+    </main>
+
+    <div id="settings" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <section class="modal settings-modal">
+        <div class="modal-head"><div><p class="eyebrow">Your comfort comes first</p><h2 id="settingsTitle">Settings & boundaries</h2></div><button class="round-button modal-close" aria-label="Close">×</button></div>
+        <div class="settings-grid">
+          <div class="setting-section"><h3>Play & audio</h3><label class="range-label">Text speed <input id="textSpeed" type="range" min="0" max="40" step="4"><span id="textSpeedLabel"></span></label><label class="range-label">Auto delay <input id="autoDelay" type="range" min="1200" max="5000" step="200"><span id="autoDelayLabel"></span></label><label class="range-label">Master <input id="volume" type="range" min="0" max="1" step="0.05"><span id="volumeLabel"></span></label><label class="range-label">Music <input id="musicVolume" type="range" min="0" max="1" step="0.05"><span id="musicVolumeLabel"></span></label><label class="range-label">Effects <input id="effectsVolume" type="range" min="0" max="1" step="0.05"><span id="effectsVolumeLabel"></span></label><label class="range-label">Ambience <input id="ambienceVolume" type="range" min="0" max="1" step="0.05"><span id="ambienceVolumeLabel"></span></label><label class="range-label">Horror <input id="horrorVolume" type="range" min="0" max="1" step="0.05"><span id="horrorVolumeLabel"></span></label><div class="setting-buttons"><button id="settingsFull" class="btn ghost">Toggle fullscreen</button><button id="titleBtn" class="btn ghost">Return to title</button></div></div>
+          <div class="setting-section"><h3>Content & accessibility</h3><p>Disabled themes are softened or rewritten without punishing your route.</p><div class="toggles" id="toggleList"></div></div>
+        </div>
+        <button class="btn primary modal-close wide">Save and return</button>
+      </section>
+    </div>
+
+    <div id="clues" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="cluesTitle"><section class="modal case-modal"><div class="modal-head"><div><p class="eyebrow">Evidence survives differently here</p><h2 id="cluesTitle">Clue case</h2></div><button class="round-button modal-close" aria-label="Close">×</button></div><div class="clue-grid" id="clueList"></div></section></div>
+    <div id="history" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="historyTitle"><section class="modal history-modal"><div class="modal-head"><div><p class="eyebrow">What the carnival allowed you to hear</p><h2 id="historyTitle">Dialogue history</h2></div><button class="round-button modal-close" aria-label="Close">×</button></div><div class="history-list" id="historyList"></div></section></div>
+    <div id="endings" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="endingsTitle"><section class="modal endings-modal"><div class="modal-head"><div><p class="eyebrow">The carnival remembers every curtain call</p><h2 id="endingsTitle">Ending gallery</h2></div><button class="round-button modal-close" aria-label="Close">×</button></div><div class="ending-list" id="endingList"></div></section></div>
+    <div id="help" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><section class="modal help-modal"><div class="modal-head"><div><p class="eyebrow">PC controls</p><h2 id="helpTitle">How to play</h2></div><button class="round-button modal-close" aria-label="Close">×</button></div><div class="key-grid"><div><kbd>Space / Enter</kbd><span>Advance dialogue</span></div><div><kbd>1 · 2 · 3 · 4</kbd><span>Choose a response</span></div><div><kbd>WASD / Arrows</kbd><span>Select map or walk</span></div><div><kbd>E</kbd><span>Explore or interact</span></div><div><kbd>Q / L</kbd><span>Quick save / load</span></div><div><kbd>C / H</kbd><span>Clues / history</span></div><div><kbd>A</kbd><span>Toggle auto-play</span></div><div><kbd>F</kbd><span>Toggle fullscreen</span></div></div><button class="btn primary modal-close wide">Enter the carnival</button></section></div>
+  </div>
+  <script src="game.js?v=11" defer></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1b4065f2efe844a',t:'MTc4NDA2ODc4MQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

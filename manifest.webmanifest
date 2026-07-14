@@ -1,0 +1,19 @@
+{
+  "name": "The Carnival Knows Your Name",
+  "short_name": "Carnival",
+  "description": "A dark masquerade psychological-horror romance visual novel.",
+  "start_url": "./game.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080712",
+  "theme_color": "#080712",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/apple-touch-icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
